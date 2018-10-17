@@ -1,0 +1,275 @@
+<!DOCTYPE html> 
+<html> 
+ <head> 
+ <meta charset="utf-8">
+ <title>生命日历.html</title> 
+ <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+ <style type="text/css"> 
+  table{ 
+   border:#00ffff solid 1px; 
+   border-collapse:collapse; 
+  } 
+  td{ 
+   border:#8080ff solid 1px; 
+    padding:5px; 
+  } 
+  input[type=text] {
+  	width:30px;
+  }
+ 
+ </style> 
+ <script type="text/javascript"> 
+  var tableNode;
+  var tableNod;
+  var xzhou;
+  var yzhou; 
+
+  function createTable(){ 
+    var age2 = document.createElement("input");
+      age2.setAttribute("id","input")
+      var sj1=parseInt(document.getElementsByName("sj1")[0].value);
+      var gz1=parseInt(document.getElementsByName("gz1")[0].value);
+      var ch1=parseInt(document.getElementsByName("ch1")[0].value);
+      var qt1=parseInt(document.getElementsByName("qt1")[0].value);
+      var nl1=parseInt(document.getElementsByName("nl1")[0].value);
+      var aged=parseInt(document.getElementsByName("aged")[0].value);
+
+
+     document.getElementById("show2").innerHTML =("你的努力程度击败了全世界百分之"+nl1/16*100+"的人！你必须更努力一点！");
+console.log("这里是"+sj1+gz1+ch1+qt1+nl1);
+    tableNode=document.createElement("table");//获得对象 
+   tableNode.setAttribute("id","table") 
+   //var row=parseInt(document.getElementsByName("row1")[0].value);//获得行号 
+   var row=aged;
+   //alert(row); 
+   if(row<=0 || isNaN(row) ){ 
+    alert("输入的行号错误，不能创建表格，请重新输入："); 
+    return; 
+   } 
+  // var cols=parseInt(document.getElementsByName("cols1")[0].value);
+   var cols=52; 
+   if(isNaN(cols) || cols<=0){ 
+    alert("输入的列号错误，不能创建表格，请重新输入："); 
+    return; 
+   } 
+   //上面确定了 现在开始创建 
+   for(var x=0;x<row;x++){ //80
+      var trNode=tableNode.insertRow();
+
+     for(var y=0;y<cols;y++){ 
+      
+     var tdNode=trNode.insertCell();
+      if(x<=yzhou){
+           if(x==yzhou&&y>xzhou){
+            
+            continue;
+           }  
+     // tdNode.innerHTML=(x)+"-"+(y);
+      
+      
+       tdNode.style.backgroundColor = "red";
+      } 
+      if(x<=yzhou*(1-nl1/24)){
+      	/*console.log(parseInt(yzhou*(1-nl1/24)));
+      	console.log(Math.round(yzhou*(1-nl1/24)*100)/100);
+      	console.log((Math.round(yzhou*(1-nl1/24)*100)/100-parseInt(yzhou*(1-nl1/24)))*100*0.52);*/
+      	if(x==parseInt(yzhou*(1-nl1/24))&&y>(Math.round(yzhou*(1-nl1/24)*100)/100-parseInt(yzhou*(1-nl1/24)))*100*0.52){
+            
+            continue;
+           } 
+        tdNode.style.backgroundColor = "MediumPurple";
+      }
+      if(x<=yzhou*(1-(qt1+nl1)/24)){
+      	if(x==parseInt(yzhou*(1-(qt1+nl1)/24))&&y>(Math.round(yzhou*(1-(qt1+nl1)/24)*100)/100-parseInt(yzhou*(1-(qt1+nl1)/24)))*100*0.52){
+            
+            continue;
+           } 
+        tdNode.style.backgroundColor = "LightSkyBlue";
+      }
+      if(x<=yzhou*(1-(qt1+nl1+ch1)/24)){
+      	if(x==parseInt(yzhou*(1-(qt1+nl1+ch1)/24))&&y>(Math.round(yzhou*(1-(qt1+nl1+ch1)/24)*100)/100-parseInt(yzhou*(1-(qt1+nl1+ch1)/24)))*100*0.52){
+            
+            continue;
+           } 
+        tdNode.style.backgroundColor = "GoldEnrod";
+      }
+      if(x<=yzhou*(1-(qt1+nl1+ch1+gz1)/24)){
+      	if(x==parseInt(yzhou*(1-(qt1+nl1+ch1+gz1)/24))&&y>(Math.round(yzhou*(1-(qt1+nl1+ch1+gz1)/24)*100)/100-parseInt(yzhou*(1-(qt1+nl1+ch1+gz1)/24)))*100*0.52){
+            
+            continue;
+           } 
+        tdNode.style.backgroundColor = "DimGray";
+      }
+
+    //tdNode.innerHTML=(x+1)+"-"+(y+1);
+    } 
+    
+   } 
+   
+    
+
+   document.getElementById("div1").appendChild(tableNode);//添加到那个位置
+  
+  } 
+  /*function delRow(){ 
+   //要删除行，必须得到table对象才能删除，所以在创建的时候必须要设置table对象的 id 方便操作 
+   var tab=document.getElementById("table");//获得table对象 
+   if(tab==null){ 
+    alert("删除的表不存在！") 
+    return; 
+   } 
+   var rows=parseInt(document.getElementsByName("delrow1")[0].value);//获得要删除的对象 
+   if(isNaN(rows)){ 
+    alert("输入的行不正确。请输入要删除的行。。。"); 
+    return; 
+   } 
+   if (rows >= 1 && rows <= tab.rows.length) { 
+    tab.deleteRow(rows-1); 
+    }else{ 
+     alert("删除的行不存在！！"); 
+     return ; 
+    } 
+     
+  } 
+  //删除列要麻烦些， 要通过行来进行删除 
+  // 一行的cells的长度就是列的个数 
+  //tab.rows[x].deleteCell(cols-1) 
+  function delCols(){ 
+   //获得table对象 
+   var tab=document.getElementById("table"); 
+     
+   if(tab==null){ 
+    alert("删除的表不存在！！"); 
+    return ; 
+   } 
+   //获得文本框里面的内容 
+   var cols=parseInt(document.getElementsByName("delcols1")[0].value); 
+   //检查是否可靠 
+   if(isNaN(cols)){ 
+    alert("输入不正确。请输入要输出的列。。"); 
+    return; 
+   } 
+   if(!(cols>=1 && cols<tab.rows[0].cells.length)){ 
+    alert("您要删除的行不存在！！"); 
+    return; 
+   } 
+   for(var x=0;x<tab.rows.length;x++){//所有的行 
+    tab.rows[x].deleteCell(cols-1); 
+   } 
+  } */
+  
+
+
+
+
+
+
+
+
+
+    function getValue() {
+      var age1 = document.createElement("input");
+      age1.setAttribute("id","input")
+      var y1=parseInt(document.getElementsByName("y1")[0].value);
+      var m1=parseInt(document.getElementsByName("m1")[0].value);
+      var d1=parseInt(document.getElementsByName("d1")[0].value);
+      
+   ages(y1+"-"+ m1+"-"+d1);
+        
+      
+
+      function   ages(str)   {     
+        
+        var   r   =   str.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
+        console.log(r);      
+        if(r==null)return   false;     
+        var   d=   new   Date(r[1],   r[3]-1,   r[4]); 
+        console.log(d);     
+        if   (d.getFullYear()==r[1]&&(d.getMonth()+1)==r[3]&&d.getDate()==r[4])   
+        {   
+              var   Y   =   new   Date().getFullYear();  
+               
+              
+          
+              var   M   =  new   Date().getMonth();
+              
+
+              var   D   =  new   Date().getDate();
+              console.log(Y+"-"+(M+1)+"-"+D);
+              console.log(D-r[4]<0);
+              if(D-r[4]<0){
+                document.getElementById("show").innerHTML =("年龄="+(Y-r[1])+"岁"+(M-r[3])+"个月"+(D-r[4]+30)+"天");
+                var YMD=("竖"+(Y-r[1])+"横"+((M-r[3])*4+((D-r[4]+30)/7)));
+                xzhou=((M-r[3]+1-1)*4+((D-r[4]+30)/7));
+                yzhou=(+(Y-r[1]));
+                if((M-r[3])<0){
+                    document.getElementById("show").innerHTML =("年龄="+(Y-r[1]-1)+"岁"+(M-r[3]+12)+"个月"+(D-r[4]+30)+"天");
+                     var YMD=("竖"+(Y-r[1]-1)+"横"+((M-r[3]+12)*4+((D-r[4]+30)/7)));
+                    xzhou=((M-r[3]+12)*4+((D-r[4]+30)/7));
+                     yzhou=(+(Y-r[1])-1);
+                }
+              }else if((M-r[3]+1)<0){
+                document.getElementById("show").innerHTML =("年龄="+(Y-r[1]-1)+"岁"+(M-r[3]+1+12)+"个月"+(D-r[4])+"天");
+                var YMD=("竖"+(Y-r[1]-1)+"横"+((M-r[3]+1+12)*4+((D-r[4])/7)));
+                xzhou=((M-r[3]+1+12)*4+((D-r[4])/7));
+                yzhou=(+(Y-r[1])-1);
+              }else{
+              document.getElementById("show").innerHTML =("年龄="+(Y-r[1])+"岁"+(M-r[3]+1)+"个月"+(D-r[4])+"天");
+              var YMD=("竖"+(Y-r[1])+"横"+((M-r[3]+1)*4+((D-r[4])/7)));
+              xzhou=((M-r[3]+1)*4+((D-r[4])/7));
+                yzhou=(+(Y-r[1])); 
+              }
+             console.log( YMD  );
+        }   
+        return("输入的日期格式错误！");   
+  }   
+  createTable()
+  
+    } 
+
+
+
+
+
+
+ </script> 
+ </head> 
+  
+ <body>
+ <div id="div1" style="float:left;width:70%;"></div>  
+ <div id="div2" style="float:right;width:30%;">
+ 
+ <!-- 行:<input type="text" name="row1"/> 
+ 列:<input type="text" name="cols1"/> --> 
+ 出生年:<input type="text" value="1970" name="y1" size="2" /> 
+ 月:<input type="text" value="1" name="m1" size="2"/>
+ 日:<input type="text" value="1" name="d1" size="2"/><br/>
+ <input type="button" value="打开日历" onclick="getValue()"/><br/>
+ <font color= "DimGray">每天睡觉</font><input type="text" value="8"  name="sj1"/>小时<br/> 
+ <font color= "GoldEnrod">每天工作</font><input type="text" value="8"  name="gz1"/>小时<br/> 
+ <font color= "LightSkyBlue">每天吃喝</font><input type="text" value="3"  name="ch1"/>小时<br/> 
+ <font color= "MediumPurple">每天其它</font><input type="text" value="3" color= "MediumPurple" name="qt1"/>小时<br/> 
+ <font color="red">每天学习</font><input type="text" value="2" color="red" name="nl1"/>小时<br/>
+ <font color="#0000FF"></font><input type="text" value="80" color="#0000FF" name="aged"/>岁
+ <p id="show"></p>
+ <p id="show2"></p>
+ 
+   
+ 
+ <!-- <input type="button" value="打开" onclick="getValue()"/>--> <br/> 
+ <!--  
+ <input type="text" name="delrow1"/> 
+ <input type="button" value="删除行" onclick="delRow()"/><br/> 
+   
+ <input type="text" name="delcols1"/> 
+ <input type="button" value="删除列" onclick="delCols()"/><br>
+ --> 
+ </div>
+ 
+
+ </body> 
+</html>
+        
+        
+        
+        
